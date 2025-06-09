@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notable - Notes App</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#a29bfe" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" nrel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <!-- Mobile Menu Toggle -->
+  <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+    <i data-lucide="menu"></i>
+  </button>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+
+  <div class="app-container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="app-title">Notable</h1>
+        <button class="new-note-btn" id="newNoteBtn">+ New Note</button>
+      </div>
+
+      <div class="notes-list" id="notesList">
+        <!-- Notes will be dynamically added here -->
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Main Dashboard View -->
+      <div class="dashboard-container" id="dashboardContainer">
+        <!-- Notes Sharing Section -->
+        <section class="notes-sharing-section">
+          <div class="sharing-content">
+            <h2 class="sharing-title">Notes Sharing</h2>
+            <p class="sharing-subtitle">Join the community</p>
+            <button class="learn-more-btn">Learn More</button>
+          </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="section-divider"></div>
+
+        <!-- Desk Section -->
+        <section class="desk-section">
+          <h2 class="desk-title">Desk</h2>
+          <div class="desk-content" id="deskContent">
+            <div class="empty-desk-message" id="emptyDeskMessage" style="display: none;">
+              <p>No notes yet. Create your first note to get started!</p>
+            </div>
+            <div class="desk-cards-container">
+              <div class="desk-cards-wrapper">
+                <div class="desk-cards" id="deskCards">
+                  <div class="desk-card">
+                    <div class="desk-card-content">
+                      <h3 class="desk-card-title">Project Ideas</h3>
+                      <p class="desk-card-description">A collection of innovative project concepts and brainstorming notes for future development.</p>
+                      <div class="desk-card-meta">Updated 2 days ago</div>
+                    </div>
+                  </div>
+
+                  <div class="desk-card">
+                    <div class="desk-card-content">
+                      <h3 class="desk-card-title">Meeting Notes</h3>
+                      <p class="desk-card-description">Important discussions, action items, and key decisions from team meetings.</p>
+                      <div class="desk-card-meta">Updated 1 day ago</div>
+                    </div>
+                  </div>
+
+                  <div class="desk-card">
+                    <div class="desk-card-content">
+                      <h3 class="desk-card-title">Learning Resources</h3>
+                      <p class="desk-card-description">Curated links, tutorials, and educational materials for continuous learning.</p>
+                      <div class="desk-card-meta">Updated 3 days ago</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="desk-nav-buttons" id="deskNavButtons">
+                <button class="desk-nav-btn" id="deskPrevBtn" title="Previous">
+                  <i data-lucide="chevron-left"></i>
+                </button>
+                <button class="desk-nav-btn" id="deskNextBtn" title="Next">
+                  <i data-lucide="chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Password Manager Section -->
+        <section class="password-manager-section">
+          <h3 class="creation-title">Password Manager</h3>
+          <div class="password-manager-content">
+            <div class="password-stats">
+              <div class="password-stat-card">
+                <div class="stat-icon">
+                  <i data-lucide="shield-check"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number" id="totalPasswordsCount">0</h4>
+                  <p class="stat-label">Stored Passwords</p>
+                </div>
+              </div>
+              <div class="password-stat-card">
+                <div class="stat-icon">
+                  <i data-lucide="alert-triangle"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number" id="weakPasswordsCount">0</h4>
+                  <p class="stat-label">Weak Passwords</p>
+                </div>
+              </div>
+              <div class="password-stat-card">
+                <div class="stat-icon">
+                  <i data-lucide="copy"></i>
+                </div>
+                <div class="stat-content">
+                  <h4 class="stat-number" id="duplicatePasswordsCount">0</h4>
+                  <p class="stat-label">Duplicate Passwords</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="password-manager-actions">
+              <button class="password-action-btn" id="addPasswordBtn">
+                <i data-lucide="plus"></i>
+                Add Password
+              </button>
+              <button class="password-action-btn" id="generatePasswordBtn">
+                <i data-lucide="key"></i>
+                Generate Password
+              </button>
+              <button class="password-action-btn" id="viewPasswordsBtn">
+                <i data-lucide="list"></i>
+                View All Passwords
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Notebook Creation Section -->
+        <section class="notebook-creation-section">
+          <h3 class="creation-title">Create New</h3>
+          <div class="notebook-options">
+            <div class="notebook-card" data-type="blank">
+              <div class="card-icon">
+                <i data-lucide="file-text"></i>
+              </div>
+              <h4 class="card-title">Blank Notebook</h4>
+              <p class="card-description">Start with a clean slate</p>
+            </div>
+
+            <div class="notebook-card" data-type="personal">
+              <div class="card-icon">
+                <i data-lucide="user"></i>
+              </div>
+              <h4 class="card-title">Personal Notebook</h4>
+              <p class="card-description">Private notes and thoughts</p>
+            </div>
+
+            <div class="notebook-card" data-type="blog">
+              <div class="card-icon">
+                <i data-lucide="edit-3"></i>
+              </div>
+              <h4 class="card-title">Blog Post</h4>
+              <p class="card-description">Share your ideas with the world</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Note Editor (Hidden by default) -->
+      <div class="editor-container" id="editorContainer" style="display: none;">
+        <div class="editor-header">
+          <button class="back-btn" id="backBtn">← Back to Dashboard</button>
+        </div>
+
+        <div class="note-editor" id="noteEditor">
+          <input 
+            type="text" 
+            class="note-title" 
+            id="noteTitle" 
+            placeholder="Note title..."
+          >
+          <div class="editor-toolbar" id="editorToolbar">
+            <div class="toolbar-group">
+              <button class="toolbar-btn" id="undoBtn" title="Undo (Ctrl+Z)">
+                <i data-lucide="undo"></i>
+              </button>
+              <button class="toolbar-btn" id="redoBtn" title="Redo (Ctrl+Y)">
+                <i data-lucide="redo"></i>
+              </button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <button class="toolbar-btn" id="boldBtn" title="Bold (Ctrl+B)">
+                <i data-lucide="bold"></i>
+              </button>
+              <button class="toolbar-btn" id="italicBtn" title="Italic (Ctrl+I)">
+                <i data-lucide="italic"></i>
+              </button>
+              <button class="toolbar-btn" id="underlineBtn" title="Underline (Ctrl+U)">
+                <i data-lucide="underline"></i>
+              </button>
+              <button class="toolbar-btn" id="strikeBtn" title="Strikethrough">
+                <i data-lucide="strikethrough"></i>
+              </button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <button class="toolbar-btn" id="bulletListBtn" title="Bullet List">
+                <i data-lucide="list"></i>
+              </button>
+              <button class="toolbar-btn" id="numberListBtn" title="Numbered List">
+                <i data-lucide="list-ordered"></i>
+              </button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <button class="toolbar-btn" id="linkBtn" title="Insert Link">
+                <i data-lucide="link"></i>
+              </button>
+              <button class="toolbar-btn" id="codeBtn" title="Code">
+                <i data-lucide="code"></i>
+              </button>
+              <button class="toolbar-btn" id="quoteBtn" title="Quote">
+                <i data-lucide="quote"></i>
+              </button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <select class="toolbar-select" id="headingSelect" title="Heading">
+                <option value="p">Normal</option>
+                <option value="h1">Heading 1</option>
+                <option value="h2">Heading 2</option>
+                <option value="h3">Heading 3</option>
+                <option value="h4">Heading 4</option>
+              </select>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <button class="toolbar-btn" id="alignLeftBtn" title="Align Left">
+                <i data-lucide="align-left"></i>
+              </button>
+              <button class="toolbar-btn" id="alignCenterBtn" title="Align Center">
+                <i data-lucide="align-center"></i>
+              </button>
+              <button class="toolbar-btn" id="alignRightBtn" title="Align Right">
+                <i data-lucide="align-right"></i>
+              </button>
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <input type="color" class="color-picker" id="textColorPicker" title="Text Color" value="#ffffff">
+              <input type="color" class="color-picker" id="bgColorPicker" title="Background Color" value="#1e2328">
+            </div>
+
+            <div class="toolbar-divider"></div>
+
+            <div class="toolbar-group">
+              <button class="toolbar-btn" id="imageBtn" title="Insert Image">
+                <i data-lucide="image"></i>
+              </button>
+              <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+            </div>
+          </div>
+
+          <div 
+            class="note-content-editor" 
+            id="noteContentEditor" 
+            contenteditable="true"
+            placeholder="Start writing your note..."
+          ></div>
+        </div>
+      </div>
+
+      <!-- Password Manager View (Hidden by default) -->
+      <div class="password-manager-view-container" id="passwordManagerViewContainer" style="display: none;">
+        <div class="password-manager-header">
+          <button class="back-btn" id="passwordManagerBackBtn">← Back to Dashboard</button>
+          <div class="password-manager-title-bar">
+            <h1 class="password-manager-title">Password Manager</h1>
+            <div class="password-manager-controls">
+              <div class="search-container">
+                <input type="text" id="passwordSearchInput" placeholder="Search passwords..." class="search-input">
+                <i data-lucide="search" class="search-icon"></i>
+              </div>
+              <button class="password-action-btn" id="addPasswordFromViewBtn">
+                <i data-lucide="plus"></i>
+                Add Password
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="password-manager-content-wrapper">
+          <div class="password-list-container">
+            <div class="password-list" id="passwordList">
+              <!-- Passwords will be dynamically loaded here -->
+            </div>
+            <div class="empty-passwords-message" id="emptyPasswordsMessage" style="display: none;">
+              <i data-lucide="key"></i>
+              <p>No passwords stored yet. Add your first password to get started!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notebook View (Hidden by default) -->
+      <div class="notebook-view-container" id="notebookViewContainer" style="display: none;">
+        <div class="notebook-header">
+          <button class="back-btn" id="notebookBackBtn">← Back to Dashboard</button>
+          <div class="notebook-title-bar">
+            <h1 class="notebook-title" id="notebookTitle">Evolution And The Origin Of Species</h1>
+          </div>
+        </div>
+
+        <div class="notebook-content-wrapper">
+          <div class="notebook-main-content">
+            <div class="notebook-content" id="notebookContent">
+              <!-- Content will be loaded dynamically from the note -->
+            </div>
+          </div>
+
+          <aside class="notebook-sidebar">
+            <div class="notebook-metadata">
+              <div class="metadata-section">
+                <h4 class="metadata-title">Notebook Details</h4>
+
+                <div class="metadata-item">
+                  <span class="metadata-label">Created</span>
+                  <span class="metadata-value" id="notebookCreatedDate">5 days ago</span>
+                </div>
+
+                <div class="metadata-item">
+                  <span class="metadata-label">Status</span>
+                  <span class="metadata-value unpublished" id="notebookStatus">Unpublished</span>
+                </div>
+
+                <div class="metadata-item">
+                  <span class="metadata-label">Sections</span>
+                  <span class="metadata-value" id="notebookSections">3</span>
+                </div>
+
+                <div class="metadata-item">
+                  <span class="metadata-label">Pages</span>
+                  <span class="metadata-value" id="notebookPages">12</span>
+                </div>
+
+                <div class="metadata-item">
+                  <span class="metadata-label">Bookmarks</span>
+                  <span class="metadata-value" id="notebookBookmarks">2</span>
+                </div>
+              </div>
+
+              <div class="notebook-actions">
+                <button class="open-notebook-btn" id="openNotebookBtn">Open Notebook</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Sidebar with Trash -->
+    <aside class="right-sidebar" id="rightSidebar">
+      <div class="right-sidebar-header">
+        <h3 class="trash-title">
+          <i data-lucide="trash-2"></i>
+          Trash
+        </h3>
+        <button class="empty-trash-btn" id="emptyTrashBtn" title="Empty Trash">
+          <i data-lucide="trash"></i>
+          Empty All
+        </button>
+      </div>
+
+      <div class="trash-list" id="trashList">
+        <div class="empty-trash-message" id="emptyTrashMessage">
+          <i data-lucide="trash-2"></i>
+          <p>No items in trash</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Trash Toggle Button -->
+    <button class="trash-toggle-btn" id="trashToggleBtn" title="Toggle Trash">
+      <i data-lucide="trash-2"></i>
+    </button>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
