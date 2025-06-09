@@ -1,26 +1,3 @@
-// Service Worker Registration and Offline Support
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/service-worker.js")
-      .then(reg => {
-        console.log("Service Worker Registered!", reg);
-        
-        // Check for updates
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New version available, could show update notification
-              console.log('New version available!');
-            }
-          });
-        });
-      })
-      .catch(err => console.error("Service Worker Failed:", err));
-  });
-}
-
 // Online/Offline Detection
 class OfflineManager {
   constructor() {
