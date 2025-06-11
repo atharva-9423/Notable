@@ -1,5 +1,5 @@
 {
-  "name": "Notable - Notes &amp; Password Manager",
+  "name": "Notable - Notes taking app & Password Manager",
   "short_name": "Notable",
   "start_url": "https://atharva-9423.github.io/Notable/",
   "display": "standalone",
@@ -21,7 +21,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "icon-01.png",
+      "src": "icon-02.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
