@@ -1,7 +1,7 @@
 {
   "name": "Notable - Notes taking app & Password Manager",
   "short_name": "Notable",
-  "start_url": "https://atharva-9423.github.io/Notable/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#1e2328",
   "theme_color": "#7c3aed",
